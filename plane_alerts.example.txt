@@ -1,0 +1,7 @@
+# Tracked aircraft: shown in a banner (and highlighted on the map) when within range.
+# Copy to plane_alerts.txt. One aircraft per line, either:
+#   hex,registration,owner,type          (CSV)
+# or just a hex code / registration on its own.
+#
+# a1b2c3,N12345,Example Owner,C172
+# N54321

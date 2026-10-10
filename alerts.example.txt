@@ -1,0 +1,8 @@
+# Alert keywords: one word or phrase per line (whole-word match, not case sensitive).
+# Copy to alerts.txt, or just add words from the dashboard's Alerts tab ("Edit words").
+mayday
+pan pan
+medical
+divert
+bird strike
+smoke

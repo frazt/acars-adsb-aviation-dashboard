@@ -1,0 +1,21 @@
+# systemd service so the dashboard starts at boot and restarts if it stops.
+#   sudo cp aviation-dashboard.service /etc/systemd/system/
+#   (edit User= and the paths below to match where you cloned the repo)
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now aviation-dashboard
+#   journalctl -u aviation-dashboard -f      # watch the log
+
+[Unit]
+Description=Live Aviation Dashboard
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+User=pi
+WorkingDirectory=/opt/aviation-dashboard
+ExecStart=/usr/bin/python3 /opt/aviation-dashboard/live_aviation_dashboard.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

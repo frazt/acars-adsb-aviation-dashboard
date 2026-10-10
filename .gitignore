@@ -1,0 +1,27 @@
+# Personal settings and keys
+my_settings.py
+
+# Your own lists (examples are committed as *.example.txt)
+alerts.txt
+plane_alerts.txt
+
+# Runtime data written by the dashboard
+state.json
+messages_recent.json
+message_alerts.json
+route_cache.json
+coverage.json
+summary_last.txt
+message_log.db
+message_log.db-*
+airports.csv
+airports.csv.part
+*.tmp
+
+# Optional airline logos (not distributed with the project)
+static/airlines/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
