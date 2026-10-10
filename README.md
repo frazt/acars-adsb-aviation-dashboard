@@ -8,7 +8,7 @@ Built to sit alongside the [sdr-enthusiasts](https://github.com/sdr-enthusiasts)
 (ACARS Hub, acarsdec, dumpvdl2, acars_router, tar1090 / ultrafeeder) and runs happily on the
 same Raspberry Pi.
 
-> _Add a screenshot here: `docs/screenshot.png`._
+![Live Aviation Dashboard](docs/screenshot.png)
 
 ## Features
 
