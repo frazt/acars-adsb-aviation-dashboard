@@ -3111,6 +3111,7 @@ h1 { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: 0.01em; }
 
 /* ---------- KPIs ---------- */
 .kpis { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; margin: 14px 0; }
+.kpis[hidden] { display: none; }
 
 .kpi {
     position: relative;
@@ -3855,7 +3856,7 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
         <div class="w-items" id="watch-items"></div>
     </div>
 
-    <section class="kpis">
+    <section class="kpis" id="kpis">
         <div class="kpi" style="--c: var(--text)">
             <div class="k">Messages</div>
             <div class="v" id="k-total">0</div>
@@ -5911,11 +5912,13 @@ function setTab(tab) {
     S.tab = tab;
     document.querySelectorAll(".tab").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
     ["live", "map", "nearby", "alerts", "trends"].forEach(t => { $("v-" + t).hidden = t !== tab; });
+    $("kpis").hidden = tab !== "live";      // count tiles only on the Live tab
     if (tab === "trends") loadTrends();
     try { localStorage.setItem("avdash-tab", tab); } catch (e) {}
 
     if (tab === "map" && map) {
         setTimeout(() => {
+            sizeMap();
             map.invalidateSize();
             if (!mapFitted && markers.size) {
                 fitMap();
@@ -5929,6 +5932,18 @@ function setTab(tab) {
     }
     if (tab === "nearby") document.querySelector('.tab[data-tab="nearby"]').classList.remove("hot");
 }
+
+// Let the map fill the window below the tabs (phones keep their own fixed height).
+function sizeMap() {
+    const el = $("map");
+    if (!el) return;
+    if (window.innerWidth <= 640) { el.style.height = ""; return; }
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    el.style.height = Math.max(460, Math.round(window.innerHeight - top - 24)) + "px";
+}
+window.addEventListener("resize", () => {
+    if (S.tab === "map" && map) { sizeMap(); map.invalidateSize(); }
+});
 
 /* ---------- WebSocket ---------- */
 let ws = null;
