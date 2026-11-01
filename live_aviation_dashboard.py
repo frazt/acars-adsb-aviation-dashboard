@@ -3195,7 +3195,7 @@ h1 { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: 0.01em; }
 }
 .panel-title .r { font-family: var(--mono); font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--dim); }
 
-.live-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+.live-grid { display: grid; grid-template-columns: minmax(0, 2.45fr) minmax(0, 1fr); gap: 14px; align-items: start; }
 .col { display: grid; gap: 14px; min-width: 0; }
 
 /* ---------- Feed ---------- */
@@ -3783,19 +3783,11 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1350px) {
-    .live-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
-    .live-grid > .col:last-child { grid-column: 2; }
+    .live-grid { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); }
     .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@media (max-width: 1350px) and (min-width: 901px) {
-    .live-grid { grid-template-areas: "feed a" "feed b"; }
-    .live-grid > .feed-panel { grid-area: feed; }
-    .live-grid > .col:nth-child(2) { grid-area: a; }
-    .live-grid > .col:nth-child(3) { grid-area: b; }
 }
 @media (max-width: 900px) {
     .live-grid { grid-template-columns: 1fr; }
-    .live-grid > .col:last-child { grid-column: auto; }
     .alert-feed { grid-template-columns: 1fr; }
     .clock { display: none; }
 }
@@ -3927,22 +3919,6 @@ footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wr
             </div>
             <button class="pending" id="pending"></button>
             <div class="feed" id="feed"></div>
-        </div>
-
-        <div class="col">
-            <div class="panel">
-                <div class="panel-title"><span>Verified by Distance</span><span class="r">miles from home</span></div>
-                <div class="dist" id="dist"></div>
-                <div class="dist-labels"><span>0&ndash;25</span><span>25&ndash;50</span><span>50&ndash;100</span><span>100&ndash;200</span><span>200+</span></div>
-            </div>
-            <div class="panel">
-                <div class="panel-title"><span>Frequencies</span><span class="r" id="freq-count"></span></div>
-                <div id="freqs"></div>
-            </div>
-            <div class="panel">
-                <div class="panel-title"><span>Airlines</span><span class="r">messages</span></div>
-                <div id="airlines"></div>
-            </div>
         </div>
 
         <div class="col">
@@ -4619,6 +4595,7 @@ function addMessage(m) {
 
 /* ---------- Status panels ---------- */
 function renderDist(bins) {
+    if (!$("dist")) return;
     const max = Math.max(1, ...bins);
     $("dist").innerHTML = bins.map(c => `
         <div class="b">
@@ -4628,6 +4605,7 @@ function renderDist(bins) {
 }
 
 function renderFreqs(counts) {
+    if (!$("freqs")) return;
     const entries = Object.entries(counts || {}).map(([f, c]) => [Number(f), c]).filter(([f]) => Number.isFinite(f));
     $("freq-count").textContent = `${entries.length} active`;
     if (!entries.length) {
@@ -4648,6 +4626,7 @@ function renderFreqs(counts) {
 }
 
 function renderAirlines(counts) {
+    if (!$("airlines")) return;
     const entries = Object.entries(counts || {}).sort((a, b) => b[1] - a[1]);
     if (!entries.length) {
         $("airlines").innerHTML = '<div class="na" style="font-size:12px">No airline traffic yet.</div>';
